@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../Scripts/jquery-3.4.1.min.js"></script>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    
+    <label>Contact ID</label>
+    <input type="text" id="searchID" />
+    <button onclick="searchContact()">Search</button>
+
+    <br /><br />
+
+    <label>First Name</label>
+    <input type="text" id="firstName" />
+    <label>Last Name</label>
+    <input type="text" id="lastName" />
+    <button onclick="addContact()">Add</button>
+
+    <br /><br />
+
+    <button onclick="updateContact()">Update</button>
+
+    <br /><br />
+
+    <button onclick="deleteContact()">Delete</button>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.getJSON("../api/ContactsEF", function (result) {
+                console.info(result);
+            })
+        });
+
+        function searchContact() {
+
+            var id = $("#searchID").val();
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                //url: "../api/Contact/" + id,
+                url: "../api/ContactsEF/" + id,
+                success: function (data) {
+                    console.info(data);
+                },
+                error: function (msg) {
+                    console.error(msg);
+                }
+            });
+        }
+
+        function addContact() {
+
+            var newContact = {
+                "FirstName" : $("#firstName").val(),
+                "LastName" : $("#lastName").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                //url: "../api/Contact",
+                url: "../api/ContactsEF",
+                data: newContact,
+                success: function (data) {
+                    console.info(data);
+                },
+                error: function (msg) {
+                    console.error(msg);
+                }
+            });
+        }
+
+        function updateContact() {
+
+            var id = $("#searchID").val();
+
+            var updatedContact = {
+                "FirstName": $("#firstName").val(),
+                "LastName": $("#lastName").val()
+            };
+
+            $.ajax({
+                type: "PUT",
+                dataType: "json",
+                //url: "../api/Contact/" + id,
+                url: "../api/ContactsEF/" + id,
+                data: updatedContact,
+                success: function (data) {
+                    console.info(data);
+                },
+                error: function (msg) {
+                    console.error(msg);
+                }
+            });
+        }
+
+        function deleteContact() {
+
+            var id = $("#searchID").val();
+
+            $.ajax({
+                type: "DELETE",
+                dataType: "json",
+                //url: "../api/Contact/" + id,
+                url: "../api/ContactsEF/" + id,
+                success: function (data) {
+                    console.info(data);
+                },
+                error: function (msg) {
+                    console.error(msg);
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
